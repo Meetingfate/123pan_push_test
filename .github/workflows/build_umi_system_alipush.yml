@@ -1,0 +1,29 @@
+name: 123panpush
+on: 
+  workflow_dispatch:
+    inputs:
+      URL:
+        description: '待操作的系统包下载地址'     
+        required: true
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+       - uses: actions/checkout@master  
+       - name: 上传到123盘
+         run: |
+            curl https://rclone.org/install.sh | sudo bash
+            mkdir -p ~/.config/rclone/
+            unzip -P ${{ secrets.PASSWORD }} "$GITHUB_WORKSPACE"/rclone.zip -d ~/.config/rclone/
+            curl -fsSL "https://nn.ci/alist.sh" | bash -s install
+            systemctl stop alist
+            mv -f /home/runner/.config/rclone/data.db /opt/alist/data
+            systemctl start alist
+            rclone sync -P ./rclone.zip 123pan:/
+       - name: 7.删除工作流运行
+         uses: Mattraks/delete-workflow-runs@v2
+         with:
+          token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          retain_days: 0
+          keep_minimum_runs: 0
