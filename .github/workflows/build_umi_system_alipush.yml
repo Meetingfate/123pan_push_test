@@ -13,13 +13,9 @@ jobs:
        - name: 上传到阿里云盘
          run: |
             sudo apt install python3
-            pip3 install aliyundrive-webdav
             curl https://rclone.org/install.sh | sudo bash
             mkdir -p ~/.config/rclone/
             unzip -P ${{ secrets.PASSWORD }} "$GITHUB_WORKSPACE"/rclone.zip -d ~/.config/rclone/
-            nohup aliyundrive-webdav --refresh-token ${{ secrets.REFRESHTOKEN }} --host 127.0.0.1 --port 6396 --auth-user 3380572517 --auth-password ${{ secrets.PASSWORD }} >/dev/null 2>& 1 &
-            rclone mkdir aliyun:/LMI_Package
-            rclone sync -P ./rclone.zip aliyun:/LMI_Package    
        - name: 上传到123盘
          run: |
             curl https://rclone.org/install.sh | sudo bash
