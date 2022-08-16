@@ -13,7 +13,6 @@ jobs:
        - name: 上传到阿里云盘
          run: |
             sudo apt install python3
-            curl https://rclone.org/install.sh | sudo bash
             mkdir -p ~/.config/rclone/
             unzip -P ${{ secrets.PASSWORD }} "$GITHUB_WORKSPACE"/rclone.zip -d ~/.config/rclone/
        - name: 上传到123盘
