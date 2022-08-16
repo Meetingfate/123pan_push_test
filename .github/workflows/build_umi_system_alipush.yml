@@ -1,10 +1,6 @@
 name: 123panpush
 on: 
   workflow_dispatch:
-    inputs:
-      URL:
-        description: '待操作的系统包下载地址'     
-        required: true
 jobs:
   build:
     runs-on: ubuntu-20.04
